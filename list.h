@@ -9,46 +9,52 @@ class Entry {
  public:
   enum Priority { whatever = 0, normal, important };
 
-  // ID of the Task.. increments when adding new tasks and decrements when
-  // deleting
-  static int id_inc;
-
  private:
-  int m_taskid = ++id_inc;
   std::string m_desc = "'new task...'";
   Priority m_priority = normal;
 
  public:
   Entry() = default;
-  Entry(std::string d, Priority p)
-      : m_desc{d}, m_priority{p}, m_taskid{++id_inc} {};
+  Entry(std::string d, Priority p = normal) : m_desc{d}, m_priority{p} {};
 
-  int IncrId(int m_taskid) { return id_inc; };
   void SetPriority(Priority prio) { m_priority = prio; };
   void ModTask(std::string mod_desc) { m_desc = mod_desc; };
 
-  void Print(/*int m_taskid*/) {
-    std::cout << m_taskid << "," << m_desc << "," << m_priority << '\n';
-  };
+  void Print() const { std::cout << m_desc << '\t' << m_priority << '\n'; };
 };
 
+// Table that holds the Entrys
 class Table {
  private:
-  std::string m_name = "Default To-Do";
+  std::string m_name = "Default Table";
   std::vector<Entry> m_table;
 
  public:
   Table() = default;
-  Table(std::string n) : m_name{n}, m_table{} {};
-  void Print_table() {
-    for (int i = 0; i < m_table.size(); ++i) {
-      m_table[i].Print();
-    }
-  }
+  Table(std::string, std::vector<Entry>);
+  void PutEntry(std::string, Entry::Priority);
+  // void ModEntry()
+  // void DeleteEntry()
+  int GetSize() { return m_table.size(); };
+  void Print_table();
 };
 
-int Entry::id_inc = 0;
+Table::Table(std::string n, std::vector<Entry> t) {
+  m_name = n;
+  m_table = t;
+}
 
-std::vector<Entry> table;
+void Table::PutEntry(std::string entr_name,
+                     Entry::Priority prio = Entry::normal) {
+  // perfect forwarding by emplace_back
+  m_table.emplace_back(entr_name, prio);
+}
+
+void Table::Print_table() {
+  for (int i = 0; i < m_table.size(); ++i) {
+    std::cout << i << '\t';
+    m_table[i].Print();
+  }
+}
 
 #endif /* end of include guard: LIST_H */

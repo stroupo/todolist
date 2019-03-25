@@ -3,3 +3,4 @@
 !*.h
 !CMakeLists.txt
 !.gitignore
+!*.yml
