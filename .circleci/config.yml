@@ -22,9 +22,21 @@ jobs:
       - image: lyrahgames/cpp-test-tools:latest
     steps:
       - checkout
-      - attach workspace:
+      - attach_workspace:
           at: .
       - run:
           name: test
           command: |
             cd build
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
