@@ -3,5 +3,5 @@
 !*.h
 !CMakeLists.txt
 !.gitignore
-!*.yml
 !.circleci
+!*.md

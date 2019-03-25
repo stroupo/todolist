@@ -14,9 +14,12 @@ class Entry {
   Priority m_priority = normal;
 
  public:
+  // Defalut-Constructor
   Entry() = default;
+  // Constructor mit Initializerlist
   Entry(std::string d, Priority p = normal) : m_desc{d}, m_priority{p} {};
 
+  // some member-functions
   void SetPriority(Priority prio) { m_priority = prio; };
   void ModTask(std::string mod_desc) { m_desc = mod_desc; };
 
@@ -33,11 +36,14 @@ class Table {
   Table() = default;
   Table(std::string, std::vector<Entry>);
   void PutEntry(std::string, Entry::Priority);
-  // void ModEntry()
-  // void DeleteEntry()
+  // void ModEntry() --> needs to be implemented
+  // void DeleteEntry() --> needs to be implemented
   int GetSize() { return m_table.size(); };
   void Print_table();
 };
+
+// Functions which are too long are defined outside to class itself
+// but need to be declared within to class(boby)
 
 Table::Table(std::string n, std::vector<Entry> t) {
   m_name = n;

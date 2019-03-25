@@ -1,6 +1,6 @@
-
-
 #include "list.h"
+
+// nicht durch CMakeList.txt genutzt
 
 int main(int argc, char const *argv[]) {
   // std::cout << "Test" << '\n';

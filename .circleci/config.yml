@@ -1,23 +1,39 @@
-image: rikorose/gcc-cmake
+version: 2
 
-stages:
-  - build
-  - test
+workflows:
+  version: 2
+    jobs:
+      - build
+      - test:
+        requires:
+          - build
 
-build:
-  stage: building
-  script:
-    - mkdir -p build
-    - cd build
-    - cmake ..
-    - cmake --build .
+jobs:
+  build:
+    docker:
+      - image: rikorose/gcc-cmake
+    steps:
+      - checkout
+      - run:
+          name: build
+          command: |
+            mkdir build
+            cd build
+            cmake ..
+            cmake --build .
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
 
-  cache:
-    paths:
-      - build/*
-
-test:
-  stage: test
-  script:
-    - cd build
-    - ctest --verbose
+  test:
+    docker:
+      - image: rikorose/gcc-cmake
+    steps:
+      - checkout
+      - attach workspace:
+          at: .
+      - run:
+          name: test
+          command: |
+            cd build
