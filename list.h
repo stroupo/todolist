@@ -36,8 +36,8 @@ class Table {
   Table() = default;
   Table(std::string, std::vector<Entry>);
   void PutEntry(std::string, Entry::Priority);
-  // void ModEntry() --> needs to be implemented
-  // void DeleteEntry() --> needs to be implemented
+  void ModEntry(int, std::string);
+  void DeleteEntry(int);
   int GetSize() { return m_table.size(); };
   void Print_table();
 };
@@ -55,6 +55,15 @@ void Table::PutEntry(std::string entr_name,
   // perfect forwarding by emplace_back
   m_table.emplace_back(entr_name, prio);
 }
+
+void Table::ModEntry(int i, std::string s) {
+  if (i < m_table.size()) {
+    m_table[i].ModTask(s);
+  } else
+    std::cerr << "Dieser Eintrag ist nicht vorhanden" << '\n';
+}
+
+void Table::DeleteEntry(int i) { m_table.erase(m_table.begin() + i); }
 
 void Table::Print_table() {
   for (int i = 0; i < m_table.size(); ++i) {

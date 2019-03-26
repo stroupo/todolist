@@ -17,7 +17,16 @@ int main(int argc, char const *argv[]) {
 
   todo.PutEntry("Test mit String und Priorität", Entry::important);
   todo.PutEntry("Test2 nur mit String");
-
   todo.Print_table();
+
+  std::cout << "Test Modify" << '\n';
+  todo.ModEntry(1, "Test der Modifikation");
+  todo.ModEntry(4, "Test der Modifikation");
+  todo.Print_table();
+
+  std::cout << "Test Delete" << '\n';
+  todo.DeleteEntry(1);
+  todo.Print_table();
+
   return 0;
 }
