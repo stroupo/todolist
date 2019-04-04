@@ -4,26 +4,21 @@
 #include <iostream>
 #include <tuple>
 
-class entry {
+struct entry {
  public:
-  enum Priority { whatever = 0, normal, important };
-
- private:
-  // std::tuple<string, Priority> task =
-  std::string m_desc = "some task";
-  Priority m_priority = normal;
+  int _priority = 1;  // whatever = 0, normal = 1, important = 2
+  std::string _desc = "some task";
 
  public:
   entry() = default;
-  entry(std::string d, Priority p = normal) : m_desc{d}, m_priority{p} {};
+  entry(std::string d, int p = 1) : _desc{d}, _priority{p} {};
 
-  // some member-functions
-  std::tuple<std::string, Priority> get_detail() const {
-    return std::make_tuple(m_desc, m_priority);
+  std::tuple<std::string, int> get_detail() const {
+    return std::make_tuple(_desc, _priority);
   };
-  void set_priority(Priority prio) { m_priority = prio; };
-  void mod_task(std::string mod_desc) { m_desc = mod_desc; };
-  void print() const { std::cout << m_desc << '\t' << m_priority << '\n'; };
+  void set_priority(int prio) { _priority = prio; };
+  void mod_task(std::string new_desc) { _desc = new_desc; };
+  void print() const { std::cout << _desc << '\t' << _priority << '\n'; };
 };
 
 #endif /* end of include guard: ENTRY_H */

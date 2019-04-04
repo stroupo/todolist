@@ -1,40 +1,64 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 #include "entry.h"
 #include "table.h"
 
-table::table(std::vector<entry> t) : m_table{t} {};
+table::table(std::string n) {
+  _name = n;
+
+  // get_loc(n);
+  if (data_exist()) {
+    load_table();
+    std::cout << "data exists" << '\n';
+  } else
+    std::cout << "new table generated" << '\n';
+}
+
+bool table::data_exist() {
+  std::ifstream f("../data/todo.txt");
+  return f.good();
+}
 
 std::ostream& operator<<(std::ostream& os, const table& table) {
   int i = 0;
-  for (auto& x : table.m_table) {
+  for (auto& x : table._table) {
     auto [desc, priori] = x.get_detail();
-    os << std::left << std::setw(3) << i << std::setw(40) << desc
-       << std::setw(3) << priori << '\n';
+    os << std::left << std::setw(40) << desc << std::setw(3) << priori << '\n';
     ++i;
   }
   return os;
 }
 
-void table::put_entry(std::string entr_name,
-                      entry::Priority prio = entry::normal) {
-  m_table.emplace_back(entr_name, prio);
+void table::put_entry(std::string entr_name, int prio = 1) {
+  _table.emplace_back(entr_name, prio);
 }
 
 void table::mod_entry(int i, std::string s) {
-  if (i < m_table.size()) {
-    m_table[i].mod_task(s);
+  if (i < _table.size()) {
+    _table[i].mod_task(s);
   } else
     std::cerr << "Dieser Eintrag ist nicht vorhanden" << '\n';
 }
 
-void table::delete_entry(int i) { m_table.erase(m_table.begin() + i); }
-
-void table::save_table(const table& table) {
-  std::ofstream out("../data/todo.txt");
-  out << table;
+void table::save_table() {
+  std::ofstream out("../data/" + _name + ".txt");
+  out << *this;
   out.close();
+}
+
+void table::load_table() {  // std::string data_loc
+  std::ifstream infile("../data/todo.txt");
+  std::string line;
+  while (std::getline(infile, line)) {
+    std::string n;
+    int prio;
+    std::istringstream iss(line);
+    if (iss >> n >> prio) {
+      this->put_entry(n, prio);
+    }
+  }
 }
