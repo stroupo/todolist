@@ -50,8 +50,9 @@ int main(int argc, char const *argv[]) {
   if (sel == 2) {
     std::cout << "Test of load function" << '\n';
     // todo3.get_loc()
-    table todo3("todo");
+    table todo3;
     // todo3.get_size();
+    todo3 = load_table();
     todo3.print_table();
   }
   // todo.SaveData();

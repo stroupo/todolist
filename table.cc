@@ -2,14 +2,14 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "entry.h"
 #include "table.h"
-
+/*
 table::table(std::string n) {
   _name = n;
-
   // get_loc(n);
   if (data_exist()) {
     load_table();
@@ -17,6 +17,7 @@ table::table(std::string n) {
   } else
     std::cout << "new table generated" << '\n';
 }
+*/
 
 bool table::data_exist() {
   std::ifstream f("../data/todo.txt");
@@ -24,13 +25,20 @@ bool table::data_exist() {
 }
 
 std::ostream& operator<<(std::ostream& os, const table& table) {
-  int i = 0;
   for (auto& x : table._table) {
     auto [desc, priori] = x.get_detail();
-    os << std::left << std::setw(40) << desc << std::setw(3) << priori << '\n';
-    ++i;
+    os << std::left << std::setw(40) << desc << ", " << std::setw(3) << priori
+       << '\n';
   }
   return os;
+}
+
+std::istream& operator>>(std::istream& is, table& table) {
+  std::string desc, prio;
+  if (std::getline(is, desc, ',') && std::getline(is, prio)) {
+    table.put_entry(desc, std::stoi(prio));
+  }
+  return is;
 }
 
 void table::put_entry(std::string entr_name, int prio = 1) {
@@ -50,15 +58,20 @@ void table::save_table() {
   out.close();
 }
 
-void table::load_table() {  // std::string data_loc
+table load_table() {  // std::string data_loc
+  table table;
   std::ifstream infile("../data/todo.txt");
-  std::string line;
-  while (std::getline(infile, line)) {
-    std::string n;
-    int prio;
-    std::istringstream iss(line);
-    if (iss >> n >> prio) {
-      this->put_entry(n, prio);
+  while (!infile.eof()) infile >> table;
+  return table;
+  /*
+     std::string line;
+    while (std::getline(infile, line, ',')) {
+      std::string n;
+      int prio;
+      std::istringstream iss(line);
+      if (iss >> n >> prio) {
+        this->put_entry(n, prio);
+      }
     }
-  }
+    */
 }

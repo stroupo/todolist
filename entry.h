@@ -6,6 +6,7 @@
 
 struct entry {
  public:
+  // std::tuple <std::string, int> entry =
   int _priority = 1;  // whatever = 0, normal = 1, important = 2
   std::string _desc = "some task";
 

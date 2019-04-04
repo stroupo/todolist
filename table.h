@@ -25,15 +25,18 @@ class table {
   }
 
   friend std::ostream& operator<<(std::ostream&, const table&);
+  friend std::istream& operator<<(std::istream&, table&);
   void put_entry(std::string, int);
   void mod_entry(int, std::string);
   void save_table();
-  void load_table();
+  // table load_table();
 
  public:
   void delete_entry(int i) { _table.erase(_table.begin() + i); }
   int get_size() { return _table.size(); };
   void print_table() { std::cout << *this; }
 };
+
+table load_table();
 
 #endif /* end of include guard: TABLE_H */
