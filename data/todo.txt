@@ -1,0 +1,6 @@
+Test mit String und Priorität          , 2  
+Test3 nur mit String                    , 2  
+Test der Formatierung                   , 0  
+Test 2                                  , 0  
+Test 3                                  , 0  
+Test 4                                  , 0  

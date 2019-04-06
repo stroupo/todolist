@@ -2,18 +2,15 @@ cmake_minimum_required(VERSION 3.10)
 project(todolist LANGUAGES CXX)
 enable_testing()
 
-set(CMAKE_CXX_STANDARD 17)
+add_subdirectory(tests)
 
-#find_package(doctest REQUIRED)
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-add_library(entry entry.cc)
-add_library(table table.cc)
-target_include_directories(entry PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(table entry.cc table.cc)
 
-#add_executable(main_test test.cc)
-add_executable(main main.cc)
+target_include_directories(table PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(table PUBLIC cxx_std_17)
 
-#target_link_libraries(main_test PRIVATE list doctest::doctest)
-target_link_libraries(main PRIVATE entry table)
-
-#add_test(todo_test main_test)
+add_executable(main mainqt.cc window.cc window.h)
+set_target_properties(main PROPERTIES AUTOMOC TRUE)
+target_link_libraries(main PRIVATE Qt5::Widgets table)

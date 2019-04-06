@@ -28,6 +28,7 @@ jobs:
           name: test
           command: |
             cd build
+            ctest --verbose
 
 workflows:
   version: 2

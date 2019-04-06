@@ -1,6 +1,8 @@
 #ifndef TABLE_H
 #define TABLE_H
 
+#include <sstream>
+#include <tuple>
 #include <vector>
 
 #include "entry.h"
@@ -13,23 +15,16 @@ class table {
 
  public:
   table() = default;
-  table(std::string n);
-  // take the name checks if its exists else constructs new table
 
- public:  // functions for saving an loading data
-  bool data_exist();
-
-  std::string get_loc(std::string& name) {
-    _data_loc = "../data/" + _name + ".txt";
-    std::cout << _data_loc << '\n';
-  }
-
+ public:
+  const entry& operator[](std::size_t idx) const { return _table[idx]; };
   friend std::ostream& operator<<(std::ostream&, const table&);
   friend std::istream& operator<<(std::istream&, table&);
-  void put_entry(std::string, int);
-  void mod_entry(int, std::string);
+
+  void add_entry(std::string, int prio = 1);
+  void mod_entry(int idx, std::string new_descr);
+  std::string show_entry(std::size_t idx);
   void save_table();
-  // table load_table();
 
  public:
   void delete_entry(int i) { _table.erase(_table.begin() + i); }
@@ -38,5 +33,12 @@ class table {
 };
 
 table load_table();
+
+template <typename T>
+std::string to_string(const T& object) {
+  std::ostringstream oss;
+  oss << object;
+  return oss.str();
+}
 
 #endif /* end of include guard: TABLE_H */
