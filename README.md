@@ -2,8 +2,11 @@
 
 Simple Implementation of a ToDo-List-Application
 
-## Installing doctest
-Run the following commands in a directory appropriate for temporarily saving source code and build configurations.
+## Dependencies
+Doctest
+Qt5
+
+## Installation `Doctest`
 
     git clone https://github.com/onqtam/doctest.git
     cd doctest
@@ -12,6 +15,14 @@ Run the following commands in a directory appropriate for temporarily saving sou
     cmake ..
     cmake --build .
     sudo cmake --build . --target install
+
+
+## Installation `Qt5`
+For installation on Ubutu-Distros run
+
+    sudo apt install qt5-default
+
+
 
 ## Building
 Run the following commands in the source directory.
@@ -22,6 +33,7 @@ Run the following commands in the source directory.
     cmake --build .
 
 ## Testing
-In the directory `build`, that was created for building the actual binaries, run the following command.
+In the directory `build`, run the following command.
 
     ctest --verbose
+git remote add origin https://github.com/stroupo/todolist.git
